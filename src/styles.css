@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+
+:root{
+
+    /** Colors **/
+    --blue: rgba(0,100,255,0.8);
+    --bg-white: rgba(235, 233, 233, 0.808);
+
+
+    /** Fonts **/
+
+    --font-family: 'Raleway', sans-serif;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all .2s;
+}
+
+body{
+    font-family: var(--font-family);
+}

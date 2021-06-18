@@ -1,0 +1,40 @@
+
+<section class="todo-section">
+    <div class="title">
+        <h1>TODO</h1>
+    </div>
+    
+    <div class="todo-container">
+        <form [formGroup]="todoForm" (ngSubmit)="onSubmit(todoForm.value)">
+            <input type="text" formControlName="title" placeholder="Create a new to-do">
+            <button [disabled]="todoForm.invalid" type="submit" id="btnCreate"><i class="fas fa-plus"></i></button>
+        </form>
+
+        <div class="list">
+            <div class="item" *ngFor="let todo of todosFiltered">
+                <input *ngIf="todo.completed; else elseBlock" type="checkbox" name="complete" id="chkCompleted" (change)="onChkChange(todo.id, $event.target.checked)" checked>
+                <ng-template #elseBlock>
+                    <input type="checkbox" name="complete" id="chkCompleted" (change)="onChkChange(todo.id, $event.target.checked)">
+                </ng-template>
+                <p>{{todo.title}}</p>
+                <button id="btnEdit" (click)="onEdit(todo.id)"><i class="fas fa-edit"></i></button>
+                <button id="btnDelete" (click)="deleteTodo(todo.id)"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+
+        <div class="tools">
+            <div class="remaining">
+                <p><span>{{todoRemaining}}</span> items left</p>
+            </div>
+            <div class="filters">
+                <button (click)="filter('a')">All</button>
+                <button (click)="filter('b')">Active</button>
+                <button (click)="filter('c')">Completed</button>
+            </div>
+            <div class="clear">
+                <button (click)="deleteCompleted()">Clear completed</button>
+            </div>
+        </div>
+    </div>
+    
+</section>

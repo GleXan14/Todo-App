@@ -1,0 +1,16 @@
+
+
+.first-bg{
+    position: relative;
+    width: 100vw;
+    height: 40vh;
+    background: var(--blue);
+}
+
+.second-bg{
+    position: relative;
+    width: 100vw;
+    height: 60vh;
+    background: var(--bg-white);
+    padding: 1rem;
+}
