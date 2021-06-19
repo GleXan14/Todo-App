@@ -3,22 +3,35 @@
     <div class="title">
         <h1>TODO</h1>
     </div>
+
+    <div class="loader"  *ngIf="isCharging;">
+        <mat-spinner class="loading"></mat-spinner>
+    </div>
     
     <div class="todo-container">
-        <form [formGroup]="todoForm" (ngSubmit)="onSubmit(todoForm.value)">
-            <input type="text" formControlName="title" placeholder="Create a new to-do">
-            <button [disabled]="todoForm.invalid" type="submit" id="btnCreate"><i class="fas fa-plus"></i></button>
+        <form [formGroup]="todoForm" (ngSubmit)="onSubmit($event,todoForm.value)">
+            
+            <mat-form-field class="field" appearance="fill">
+                <mat-label>Create a new to-do</mat-label>
+                <input formControlName="title" placeholder="ex: ir al gym" matInput>
+              </mat-form-field>
+            
+            <button [disabled]="todoForm.invalid"  mat-raised-button  type="submit" id="btnCreate"><i class="fas fa-plus"></i></button>
         </form>
 
         <div class="list">
             <div class="item" *ngFor="let todo of todosFiltered">
-                <input *ngIf="todo.completed; else elseBlock" type="checkbox" name="complete" id="chkCompleted" (change)="onChkChange(todo.id, $event.target.checked)" checked>
+
+                <mat-checkbox *ngIf="todo.completed; else elseBlock" (change)="onChkChange(todo.id, $event.checked)" [checked]=true [color]="accent"></mat-checkbox>
                 <ng-template #elseBlock>
-                    <input type="checkbox" name="complete" id="chkCompleted" (change)="onChkChange(todo.id, $event.target.checked)">
+                    
+                    <mat-checkbox (change)="onChkChange(todo.id, $event.checked)"></mat-checkbox>
                 </ng-template>
-                <p>{{todo.title}}</p>
-                <button id="btnEdit" (click)="onEdit(todo.id)"><i class="fas fa-edit"></i></button>
-                <button id="btnDelete" (click)="deleteTodo(todo.id)"><i class="fas fa-times"></i></button>
+                <div class="text">
+                    <p>{{todo.title}}</p>
+                </div>
+                <button id="btnEdit" mat-icon-button (click)="onEdit(todo.id)"><i class="fas fa-edit"></i></button>
+                <button id="btnDelete" mat-icon-button (click)="deleteTodo(todo.id)"><i class="fas fa-times"></i></button>
             </div>
         </div>
 
@@ -26,13 +39,19 @@
             <div class="remaining">
                 <p><span>{{todoRemaining}}</span> items left</p>
             </div>
-            <div class="filters">
+            <!-- <div class="filters">
                 <button (click)="filter('a')">All</button>
                 <button (click)="filter('b')">Active</button>
                 <button (click)="filter('c')">Completed</button>
-            </div>
+            </div> -->
+
+            <mat-button-toggle-group class="filters" name="fontStyle" aria-label="Font Style">
+                <mat-button-toggle (click)="filter('a')" value="all">All</mat-button-toggle>
+                <mat-button-toggle (click)="filter('b')" value="active">Active</mat-button-toggle>
+                <mat-button-toggle (click)="filter('c')" value="completed">Completed</mat-button-toggle>
+            </mat-button-toggle-group>
             <div class="clear">
-                <button (click)="deleteCompleted()">Clear completed</button>
+                <button mat-raised-button color="warn" (click)="deleteCompleted()">Clear completed</button>
             </div>
         </div>
     </div>

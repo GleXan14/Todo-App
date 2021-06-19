@@ -24,4 +24,7 @@
 
 body{
     font-family: var(--font-family);
+    background: var(--bg-white);
+    padding: .2rem;
 }
+

@@ -14,6 +14,7 @@ export class TodoComponent implements OnInit {
   todosFiltered: any[] = [];
   isEditing: boolean = false;
   todoToEdit: any;
+  isCharging: boolean = false;
   todoForm: FormGroup;
 
   constructor(private _services: SharedService, private _builder: FormBuilder) { 
@@ -40,8 +41,10 @@ export class TodoComponent implements OnInit {
   }
 
   //form submit (update/post request)
-  onSubmit(value:any){
-
+  onSubmit(e:any ,value:any){
+    e.preventDefault();
+    
+    this.isCharging = true;
 
     //put request
     if(this.isEditing){
@@ -60,6 +63,7 @@ export class TodoComponent implements OnInit {
         this.sortArray();
         this.filter('a');
         this.getItemsRemaining();
+        this.isCharging = false;
 
       },(err:any)=>{
         console.error(err);
@@ -91,6 +95,7 @@ export class TodoComponent implements OnInit {
 
     }
 
+    this.isCharging = false;
     this.todoForm.setValue({
       title: ''
     })
@@ -101,8 +106,11 @@ export class TodoComponent implements OnInit {
   deleteTodo(id:any):void{
 
     let conf = confirm('Are you sure about delete this todo?');
+    
 
     if(conf){
+      this.isCharging = true;
+
       this._services.deleteTodo(id).subscribe((res:any)=>{
         let array: any[];
         array = this.apiTodo.filter((todo:any) => todo.id != id )
@@ -110,6 +118,7 @@ export class TodoComponent implements OnInit {
         this.sortArray();
         this.filter('a');
         this.getItemsRemaining();
+        this.isCharging = false;
 
       },(err:any)=>{
         console.error(err);
